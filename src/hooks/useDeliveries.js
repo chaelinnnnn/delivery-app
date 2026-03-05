@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-// 개발 환경에서 직접 서버 주소를 사용
-const API_URL = 'http://localhost:3001/api/deliveries';
+// 배포된 API 서버 주소
+const API_URL = 'https://delivery-app-production-242a.up.railway.app/api/deliveries';
 
 const REGION_COLORS = {
   Manhattan: { bg: '#EDF2FF', text: '#81A3FF' },
