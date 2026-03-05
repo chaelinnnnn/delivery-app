@@ -1,6 +1,4 @@
-# 플레이팅 사내 앱
-
-## 실행 방법
+# plating delivery app
 
 1. 의존성 설치
    ```bash
