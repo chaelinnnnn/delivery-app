@@ -7,13 +7,35 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-app.use(cors());
+
+// CORS: allow only the deployed frontend
+app.use(
+  cors({
+    origin: 'https://delivery-app-three-iota.vercel.app',
+  }),
+);
 
 const SHEET_ID = process.env.SHEET_ID || '1JTsPuDuUCxZj6J6amqlcqGu5CQBVqbe6aqpfwX3H8c4';
 const RANGE = 'Sheet1!A:J';
-const CREDENTIALS_PATH = process.env.GOOGLE_APPLICATION_CREDENTIALS
-  ? path.resolve(process.cwd(), process.env.GOOGLE_APPLICATION_CREDENTIALS)
-  : path.join(__dirname, '..', 'service-account.json');
+
+function getGoogleAuth() {
+  const raw = process.env.GOOGLE_CREDENTIALS_JSON;
+  if (!raw) {
+    throw new Error('GOOGLE_CREDENTIALS_JSON environment variable is not set');
+  }
+
+  let credentials;
+  try {
+    credentials = JSON.parse(raw);
+  } catch (e) {
+    throw new Error('Failed to parse GOOGLE_CREDENTIALS_JSON');
+  }
+
+  return new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+  });
+}
 
 /**
  * Column mapping (Sheet1!A:J)
@@ -138,10 +160,7 @@ function toDeliveryResponse(parsed) {
 
 app.get('/api/deliveries', async (req, res) => {
   try {
-    const auth = new google.auth.GoogleAuth({
-      keyFile: CREDENTIALS_PATH,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-    });
+    const auth = getGoogleAuth();
     const sheets = google.sheets({ version: 'v4', auth });
     const { data } = await sheets.spreadsheets.values.get({
       spreadsheetId: SHEET_ID,
