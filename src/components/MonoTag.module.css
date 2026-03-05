@@ -1,0 +1,14 @@
+/* Figma style_ODQOB5 (Tag/S/gray) */
+.monoTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1.09;
+  color: #949494;
+}

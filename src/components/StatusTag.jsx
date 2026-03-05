@@ -1,0 +1,38 @@
+import React from 'react';
+import styles from './StatusTag.module.css';
+
+const STATUS_COLORS = {
+  'in-transit': '#FFC500',
+  preparing: '#06C755',
+  delivered: null, /* uses icon / gray */
+};
+
+/**
+ * Status Tag (Figma) - In Transit / Preparing / Delivered
+ */
+export function StatusTag({ status = 'in-transit', children }) {
+  const dotColor = STATUS_COLORS[status];
+  const isDelivered = status === 'delivered';
+
+  return (
+    <span className={styles.statusTag}>
+      {isDelivered ? (
+        <CheckIcon className={styles.icon} />
+      ) : (
+        <span className={styles.dot} style={{ backgroundColor: dotColor }} />
+      )}
+      <span className={styles.text}>{children}</span>
+    </span>
+  );
+}
+
+/** Figma icon_check (node 65-5508) - Delivered 상태용 인라인 SVG */
+function CheckIcon({ className }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M8 1C4.13056 1 1 4.13056 1 8C1 11.8694 4.13056 15 8 15C11.8694 15 15 11.8694 15 8C15 4.13056 11.8694 1 8 1ZM11.5486 6.05556L7.65972 10.4986C7.55278 10.6153 7.40694 10.6931 7.25139 10.6931C7.09583 10.6931 6.94028 10.6444 6.82361 10.5375L4.49028 8.31111C4.25694 8.0875 4.24722 7.71806 4.47083 7.48472C4.69444 7.25139 5.06389 7.24167 5.29722 7.46528L7.19306 9.26389L10.6833 5.27778C10.8972 5.03472 11.2667 5.01528 11.5097 5.21944C11.7528 5.43333 11.7722 5.80278 11.5681 6.04583L11.5486 6.05556Z" fill="#3E3E3E" />
+    </svg>
+  );
+}
+
+export default StatusTag;

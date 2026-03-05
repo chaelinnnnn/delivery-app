@@ -1,0 +1,26 @@
+.colorTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.33;
+}
+
+.orange {
+  background: #fff6f0;
+  color: #ff6100;
+}
+
+.blue {
+  background: #edf2ff;
+  color: #81a3ff;
+}
+
+.gray {
+  background: #f5f5f5;
+  color: #3e3e3e;
+}
