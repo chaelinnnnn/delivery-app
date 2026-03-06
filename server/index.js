@@ -168,7 +168,8 @@ app.get('/api/deliveries', async (req, res) => {
     });
     const rows = data.values || [];
     const parsed = parseRows(rows);
-    const response = toDeliveryResponse(parsed);
+    const confirmedOnly = parsed.filter((item) => item.confirmed);
+    const response = toDeliveryResponse(confirmedOnly);
     res.json(response);
   } catch (err) {
     console.error(err);
