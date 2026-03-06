@@ -180,7 +180,7 @@ app.get('/api/deliveries', async (req, res) => {
   }
 });
 
-const PORT = Number(process.env.SERVER_PORT) || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 app.listen(PORT, () => {
   console.log(`API server http://localhost:${PORT}`);
 });
