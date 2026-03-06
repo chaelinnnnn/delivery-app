@@ -16,7 +16,7 @@ app.use(
 );
 
 const SHEET_ID = process.env.SHEET_ID || '1JTsPuDuUCxZj6J6amqlcqGu5CQBVqbe6aqpfwX3H8c4';
-const RANGE = 'Sheet1!A:J';
+const RANGE = 'Sheet1!A:K';
 
 function getGoogleAuth() {
   const raw = process.env.GOOGLE_CREDENTIALS_JSON;
@@ -38,17 +38,18 @@ function getGoogleAuth() {
 }
 
 /**
- * Column mapping (Sheet1!A:J)
+ * Column mapping (Sheet1!A:K)
  * A: date
  * B: region
  * C: team_leader
- * D: vehicle_id
- * E: delivery_time
- * F: location
- * G: action
- * H: status
- * I: categories (comma-separated)
- * J: confirmed
+ * D: team_member
+ * E: vehicle_id
+ * F: delivery_time
+ * G: location
+ * H: action
+ * I: status
+ * J: categories (comma-separated)
+ * K: confirmed
  */
 function parseRows(rows) {
   if (!rows || rows.length < 2) return [];
@@ -58,6 +59,7 @@ function parseRows(rows) {
       date = '',
       region = '',
       teamLeader = '',
+      teamMember = '',
       vehicleId = '',
       deliveryTime = '',
       location = '',
@@ -91,6 +93,7 @@ function parseRows(rows) {
       date: String(date).trim(),
       regionLabel: String(region).trim(),
       teamName: String(teamLeader).trim(),
+      teamMemberName: String(teamMember).trim(),
       teamId: String(vehicleId).trim(),
       time: String(deliveryTime).trim(),
       location: String(location).trim(),
@@ -110,6 +113,7 @@ function parseRows(rows) {
  *   date: string,
  *   region: string,
  *   team_leader: string,
+ *   team_member: string,
  *   vehicle_id: string,
  *   deliveries: [
  *     {
@@ -130,6 +134,7 @@ function toDeliveryResponse(parsed) {
       row.date,
       row.regionLabel,
       row.teamName,
+      row.teamMemberName,
       row.teamId,
     ]
       .map((v) => v || '')
@@ -140,6 +145,7 @@ function toDeliveryResponse(parsed) {
         date: row.date,
         region: row.regionLabel,
         team_leader: row.teamName,
+        team_member: row.teamMemberName,
         vehicle_id: row.teamId,
         deliveries: [],
       });
@@ -180,7 +186,7 @@ app.get('/api/deliveries', async (req, res) => {
   }
 });
 
-const PORT = Number(process.env.PORT) || 3001;
+const PORT = Number(process.env.SERVER_PORT) || 3001;
 app.listen(PORT, () => {
   console.log(`API server http://localhost:${PORT}`);
 });
